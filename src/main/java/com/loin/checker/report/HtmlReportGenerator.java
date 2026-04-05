@@ -13,6 +13,9 @@ import java.util.List;
 
 public class HtmlReportGenerator {
 
+    private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String FILE_TIMESTAMP_FORMAT = "yyyyMMdd-HHmmss";
+
     private final ComplianceValidator validator = new ComplianceValidator();
 
     public String generateReport(LoinSpec loin, List<IfcElement> elements,
@@ -33,7 +36,7 @@ public class HtmlReportGenerator {
 
     private String resolveOutputPath(String outputPath) {
         if (outputPath == null || outputPath.isEmpty()) outputPath = "reports/";
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(FILE_TIMESTAMP_FORMAT));
         if (outputPath.endsWith("/") || outputPath.endsWith("\\") || new File(outputPath).isDirectory()) {
             String dir = outputPath.endsWith("/") || outputPath.endsWith("\\")
                     ? outputPath : outputPath + "/";
@@ -52,7 +55,7 @@ public class HtmlReportGenerator {
         long incompleteCount = validator.countByStatus(results, PropertyResult.Status.INCOMPLETE);
         long totalProps = passCount + missingCount + incompleteCount;
 
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
 
         w.println("<!DOCTYPE html>");
         w.println("<html lang=\"en\">");

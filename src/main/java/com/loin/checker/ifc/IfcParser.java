@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 
 public class IfcParser {
 
+    // Common architectural/structural IFC element types that carry property sets
+    // relevant to LOIN compliance checks. Type entities (e.g. IFCWALLTYPE) are
+    // excluded as they describe templates rather than placed instances.
     private static final Set<String> TARGET_CLASSES = Set.of(
             "IFCWALL", "IFCWALLSTANDARDCASE", "IFCROOF", "IFCSLAB",
             "IFCDOOR", "IFCWINDOW", "IFCBEAM", "IFCCOLUMN",
@@ -146,7 +149,15 @@ public class IfcParser {
     }
 
     /**
-     * Splits IFC STEP attribute string respecting nested parentheses and quoted strings.
+     * Splits an IFC STEP attribute string on top-level commas, correctly handling:
+     * <ul>
+     *   <li>Nested parentheses: e.g. {@code (#1,#2),(#3)} is kept intact as one token</li>
+     *   <li>Single-quoted strings: e.g. {@code 'O''Brien'} with escaped internal quotes ('')</li>
+     *   <li>Typed values: e.g. {@code IFCLABEL('value')}</li>
+     * </ul>
+     *
+     * @param raw the raw comma-separated attribute string from an IFC STEP entity line
+     * @return ordered list of individual attribute tokens
      */
     List<String> splitAttributes(String raw) {
         List<String> attrs = new ArrayList<>();

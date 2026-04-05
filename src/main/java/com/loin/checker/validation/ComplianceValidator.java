@@ -8,6 +8,9 @@ import java.util.Map;
 
 public class ComplianceValidator {
 
+    private static final String EMPTY_VALUE_PLACEHOLDER = "$";
+    private static final String NULL_VALUE_PLACEHOLDER = "NULL";
+
     public List<ComplianceResult> validate(LoinSpec loin, List<IfcElement> elements) {
         List<ComplianceResult> results = new ArrayList<>();
         for (IfcElement element : elements) {
@@ -50,7 +53,9 @@ public class ComplianceValidator {
                 } else {
                     String value = actualProps.get(propName);
                     pr.setValue(value);
-                    if (value == null || value.isEmpty() || value.equals("$") || value.equalsIgnoreCase("NULL")) {
+                    if (value == null || value.isEmpty()
+                            || value.equals(EMPTY_VALUE_PLACEHOLDER)
+                            || value.equalsIgnoreCase(NULL_VALUE_PLACEHOLDER)) {
                         pr.setStatus(PropertyResult.Status.INCOMPLETE);
                     } else {
                         pr.setStatus(PropertyResult.Status.PASS);

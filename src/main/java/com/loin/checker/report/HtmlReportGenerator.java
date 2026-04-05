@@ -256,7 +256,7 @@ public class HtmlReportGenerator {
                 .data-table th { background: #1a3a5c; color: white; padding: 10px 12px; text-align: left; }
                 .data-table td { padding: 9px 12px; border-bottom: 1px solid #f0f2f5; }
                 .data-table tbody tr:hover { background: #f8f9fa; }
-                .pass-row { }
+                .pass-row { background: #f9fff9; }
                 .incomplete-row { background: #fffde7; }
                 .missing-row { background: #fff5f5; }
                 .uncovered-row { background: #f5f5f5; color: #999; }

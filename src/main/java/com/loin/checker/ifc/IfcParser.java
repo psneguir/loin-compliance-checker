@@ -159,6 +159,7 @@ public class IfcParser {
      * @param raw the raw comma-separated attribute string from an IFC STEP entity line
      * @return ordered list of individual attribute tokens
      */
+    // Package-private for unit testing within the same package.
     List<String> splitAttributes(String raw) {
         List<String> attrs = new ArrayList<>();
         int depth = 0;

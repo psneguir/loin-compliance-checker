@@ -81,8 +81,9 @@ public class ComplianceValidator {
             String otStripped = otName.startsWith("IFC") ? otName.substring(3) : otName;
             String elStripped = ifcClass.startsWith("IFC") ? ifcClass.substring(3) : ifcClass;
             if (otStripped.equals(elStripped)) return ot;
-            // Handle WALLSTANDARDCASE -> WALL
-            if (elStripped.startsWith(otStripped)) return ot;
+            // Handle WALLSTANDARDCASE -> WALL: only match if the element class ends
+            // with a known IFC sub-type suffix after the base name (e.g. "STANDARDCASE")
+            if (elStripped.startsWith(otStripped) && elStripped.substring(otStripped.length()).equals("STANDARDCASE")) return ot;
             // Handle TYPE suffix: IFCROOFTYPE -> IFCROOF
             if (ifcClass.equals(otName + "TYPE")) return ot;
             if ((ifcClass + "TYPE").equals(otName)) return ot;
